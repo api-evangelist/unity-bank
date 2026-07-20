@@ -1,0 +1,77 @@
+aid: unity-bank
+name: Unity Bank
+review:
+  question: Does Unity Bank expose a live, public CDR Product Reference Data API, and
+    is any bank-proprietary OpenAPI published?
+  answer: true
+  date: '2026-07-20'
+  reviewer: API Evangelist
+  cdrPrdConfirmed: true
+  specProvenance: |
+    The harvested OpenAPI is the shared DSB Consumer Data Standards "CDR Banking API"
+    (OpenAPI 3.0.3, version 1.36.0), captured verbatim from
+    consumerdatastandardsaustralia.github.io. It is NOT a Unity Bank proprietary
+    contract - Unity Bank publishes no bank-specific spec; its PRD endpoint conforms
+    to this shared standard. The standards document covers the full CDR banking
+    surface (16 paths); the two relevant Product Reference Data operations are
+    GET /banking/products and GET /banking/products/{productId}.
+findings:
+  summary: |
+    Unity Bank Limited (ABN 72 087 650 637, mutual/member-owned ADI) exposes a
+    genuine, public, unauthenticated Consumer Data Right (CDR) Product Reference
+    Data (PRD) API. The bank documents it on its public APIs page and confirms the
+    Product API "is public and does not require any authentication by consumers."
+    The PRD base URL is https://ibank.gcmutualbank.com.au/openbanking/cds-au/v1 - a
+    shared CDR platform host (co-tenanted with GC Mutual Bank) rather than a host on
+    the bank's own domain. The endpoint was confirmed live: GET /banking/products
+    returned HTTP 200 with standards-version negotiation (x-v 4 and 5 supported;
+    x-v 1-3 rejected with a well-formed 406 urn:au-cds:error:cds-all:Header/UnsupportedVersion),
+    a valid CDS data.products payload, banking brand code UBL, and meta.totalRecords
+    of 74 products. No bank-proprietary developer portal or authenticated API surface
+    is published beyond this PRD; broader consumer data sharing follows the CDR
+    Accredited Data Recipient (ADR) model (OAuth2 / OIDC FAPI, out of scope of the
+    public PRD).
+  authModel:
+    prd: None - public and unauthenticated per Unity Bank's own documentation and confirmed by live 200 responses.
+    consumerDataSharing: CDR ADR model (OAuth2 / OIDC FAPI profile) - not part of the public PRD surface and not independently exercised in this review.
+  developerPortal: |
+    No dedicated developer.* portal. Unity Bank documents its Public APIs at
+    https://www.unitybank.com.au/about-us/corporate-information/public-apis/ and an
+    open-banking page at https://www.unity.bank/about-us/corporate-information/open-banking/.
+    Technical reference is delegated to the DSB Consumer Data Standards.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://ibank.gcmutualbank.com.au/openbanking/cds-au/v1
+      documented: true
+      note: CDS-compliant JSON over HTTPS; version negotiated via x-v request header (supported 4, 5).
+  endpointsConfirmedRest:
+    - GET https://ibank.gcmutualbank.com.au/openbanking/cds-au/v1/banking/products
+    - GET https://ibank.gcmutualbank.com.au/openbanking/cds-au/v1/banking/products/{productId}
+  liveProbe:
+    endpoint: GET /banking/products?page-size=1
+    httpStatus: 200
+    supportedVersions: [4, 5]
+    rejectedVersionExample:
+      requested: 3
+      httpStatus: 406
+      code: urn:au-cds:error:cds-all:Header/UnsupportedVersion
+    brand: UBL
+    totalRecords: 74
+sources:
+  - url: https://www.unitybank.com.au/about-us/corporate-information/public-apis/
+    type: Documentation
+    note: Bank's Public APIs page; states the Product API host URL and that it requires no authentication. HTTP 200.
+  - url: https://www.unity.bank/about-us/corporate-information/open-banking/
+    type: Documentation
+    note: Open banking landing page referenced from the Public APIs page. HTTP 200.
+  - url: https://ibank.gcmutualbank.com.au/openbanking/cds-au/v1/banking/products
+    type: APIEndpoint
+    note: Live CDR PRD endpoint; confirmed HTTP 200 with data.products payload and x-v 4/5 negotiation.
+  - url: https://consumerdatastandardsaustralia.github.io/standards/
+    type: APIReference
+    note: DSB Consumer Data Standards; source of the shared CDR Banking API OpenAPI (v1.36.0) harvested into openapi/. HTTP 200.
+actions:
+  openapiPath: openapi/unity-bank-cds-banking-products-openapi.yml
+  openapiProvenance: DSB Consumer Data Standards (shared CDS standard, verbatim) - not bank-proprietary.
+  apisYmlUpdated: true
