@@ -1,0 +1,23 @@
+generated: '2026-07-20'
+method: searched
+notes: >-
+  Probed the /.well-known/ discovery surface on the PRD host and the bank website.
+  No documents found (all 404) - a valid, expected result for a public PRD served
+  on a shared CDR platform. Recorded for auditability; no WellKnown scoring pointer
+  is emitted because no catalog is present. Any OIDC/oauth-authorization-server
+  discovery lives on the separate (non-public) CDR ADR authorization host.
+hosts:
+- host: https://ibank.gcmutualbank.com.au
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://www.unitybank.com.au
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}

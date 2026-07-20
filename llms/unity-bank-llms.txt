@@ -1,0 +1,30 @@
+# Unity Bank
+
+> Unity Bank Limited (ABN 72 087 650 637, AFSL & Australian Credit Licence 238311, BSB 659 000) is an Australian member-owned mutual bank (ADI). Under the Australian Consumer Data Right (CDR / open banking) it exposes a public, unauthenticated Product Reference Data (PRD) API conforming to the DSB Consumer Data Standards, served on a shared CDR platform. No credentials are required to read product data.
+
+## API
+
+- [Unity Bank CDR Product Reference Data API](https://www.unitybank.com.au/about-us/corporate-information/public-apis/): Public, unauthenticated CDR PRD. Base URL https://ibank.gcmutualbank.com.au/openbanking/cds-au/v1. GET /banking/products and GET /banking/products/{productId}. Requires x-v header (supported 4, 5). Brand code UBL; 74 products live.
+
+## Specs
+
+- [OpenAPI (shared DSB CDS Banking API v1.36.0)](openapi/unity-bank-cds-banking-products-openapi.yml)
+- [MCP candidate tools](mcp/unity-bank-mcp.yml)
+- [Agent skill: product reference lookup](skills/unity-bank-product-reference-lookup.md)
+
+## Semantics
+
+- [Conventions (versioning, pagination, correlation id)](conventions/unity-bank-conventions.yml)
+- [Error catalog (CDS urn:au-cds error codes)](errors/unity-bank-problem-types.yml)
+- [Lifecycle & versioning](lifecycle/unity-bank-lifecycle.yml)
+- [Authentication (public / none)](authentication/unity-bank-authentication.yml)
+- [Conformance (CDR / CDS)](conformance/unity-bank-conformance.yml)
+- [Data model](data-model/unity-bank-data-model.yml)
+
+## Docs
+
+- [Public APIs page](https://www.unitybank.com.au/about-us/corporate-information/public-apis/)
+- [Open banking](https://www.unity.bank/about-us/corporate-information/open-banking/)
+- [DSB Consumer Data Standards (API reference)](https://consumerdatastandardsaustralia.github.io/standards/#get-products)
+- [Rates & fees](https://www.unitybank.com.au/help/rates-fees/view-all-rates-fees/)
+- [Privacy](https://www.unitybank.com.au/about-us/privacy/)

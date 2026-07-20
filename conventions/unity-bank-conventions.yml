@@ -1,0 +1,54 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/unity-bank-cds-banking-products-openapi.yml + DSB Consumer Data Standards
+notes: >-
+  Cross-cutting request/response semantics for Unity Bank's public CDR Product
+  Reference Data surface, derived from the shared DSB Consumer Data Standards
+  (CDR Banking API) the endpoint conforms to. The public PRD is read-only (GET
+  only), so there is NO idempotency contract and NO write/state-change surface.
+authentication:
+  style: none-public
+  detail: >-
+    The Product Reference Data endpoints are public and unauthenticated per Unity
+    Bank's own documentation and confirmed live (HTTP 200 without credentials).
+    Broader consumer data sharing uses the CDR Accredited Data Recipient model
+    (OAuth2 / OIDC FAPI), which is out of scope of the public PRD.
+  ref: authentication/unity-bank-authentication.yml
+versioning:
+  style: header-negotiated
+  request_headers: [x-v, x-min-v]
+  response_header: x-v
+  rule: >-
+    Client sends x-v (required) and optional x-min-v; server responds with the
+    highest supported version in [x-min-v, x-v] and echoes it in the x-v response
+    header. If no requested version is supported the server MUST return 406
+    Not Acceptable (urn:au-cds:error:cds-all:Header/UnsupportedVersion).
+  supported: [4, 5]   # confirmed live for GET /banking/products (review.yml)
+  ref: lifecycle/unity-bank-lifecycle.yml
+pagination:
+  style: page-number
+  request_params: [page, page-size]
+  defaults: {page: 1, page-size: 25}
+  response_links: [self, first, prev, next, last]
+  response_meta: [totalRecords, totalPages]
+  notes: Standard CDS pagination; links object is mandatory (self required), meta carries totalRecords/totalPages.
+idempotency:
+  supported: false
+  reason: Product Reference Data surface is read-only (GET /banking/products and GET /banking/products/{productId}); no write operations exist to be idempotency-keyed.
+request_tracing:
+  header: x-fapi-interaction-id
+  detail: >-
+    Optional RFC 4122 UUID correlation id. If the client provides x-fapi-interaction-id
+    the data holder MUST play it back in the response header; if absent the holder
+    generates one. Enables end-to-end request correlation.
+filtering:
+  updated_since: updated-since query param (DateTimeString) returns only products updated after the given time
+  effective: effective query param (CURRENT default | FUTURE | ALL) filters on effectiveFrom/effectiveTo window
+  product_category: product-category query param filters on BankingProductCategoryV2
+error_envelope:
+  media_type: application/json
+  shape: "{ errors: [ { code (CDS URN), title, detail, meta? } ] }"
+  ref: errors/unity-bank-problem-types.yml
+rate_limiting:
+  signaling: none-documented
+  notes: The DSB standards define traffic-threshold obligations for authenticated CDR flows; no rate-limit headers are documented for the public PRD surface.

@@ -1,0 +1,8 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/unity-bank-cds-banking-products-openapi.yml
+skills:
+- file: unity-bank-product-reference-lookup.md
+  name: Unity Bank product reference lookup
+  api: openapi/unity-bank-cds-banking-products-openapi.yml
+  operations: [listBankingProducts, getBankingProductDetail]

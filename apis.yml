@@ -53,6 +53,32 @@ apis:
     Consumer Data Standards (banking brand code UBL); confirmed live with HTTP 200
     responses negotiating standards versions x-v 4 and 5 across 74 published products.
 common:
+- type: AgenticAccess
+  url: agentic-access/unity-bank-agentic-access.yml
+- type: DomainSecurity
+  url: security/unity-bank-domain-security.yml
+- type: Authentication
+  url: authentication/unity-bank-authentication.yml
+- type: Conventions
+  url: conventions/unity-bank-conventions.yml
+- type: ErrorCatalog
+  url: errors/unity-bank-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/unity-bank-lifecycle.yml
+- type: Deprecation
+  url: https://consumerdatastandardsaustralia.github.io/standards/#versioning
+- type: Conformance
+  url: conformance/unity-bank-conformance.yml
+- type: DataModel
+  url: data-model/unity-bank-data-model.yml
+- type: MCPServer
+  url: mcp/unity-bank-mcp.yml
+- type: LLMsTxt
+  url: llms/unity-bank-llms.txt
+- type: Overlay
+  url: overlays/unity-bank-cds-banking-products-overlay.yaml
+- type: AgentSkill
+  url: skills/_index.yml
 - type: Website
   url: https://www.unitybank.com.au/
 - type: Portal

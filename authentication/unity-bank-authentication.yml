@@ -1,0 +1,29 @@
+generated: '2026-07-20'
+method: searched
+source: https://www.unitybank.com.au/about-us/corporate-information/public-apis/
+docs: https://www.unitybank.com.au/about-us/corporate-information/public-apis/
+notes: >-
+  Documented (not merely spec-derived): Unity Bank's Public APIs page states the
+  Product API "is public and does not require any authentication by consumers,"
+  confirmed live with HTTP 200 responses to unauthenticated GETs (review.yml).
+  The harvested shared DSB spec declares no securitySchemes for the Product
+  Reference Data operations. Broader consumer data sharing follows the CDR
+  Accredited Data Recipient model.
+summary:
+  types: [none]
+  api_key_in: []
+  oauth2_flows: []
+surfaces:
+- name: product-reference-data
+  auth: none
+  public: true
+  detail: Unauthenticated public PRD; GET /banking/products and GET /banking/products/{productId}.
+  evidence: review.yml liveProbe (HTTP 200 without credentials); Public APIs page statement.
+- name: consumer-data-sharing
+  auth: oauth2-oidc-fapi
+  public: false
+  scope: out-of-scope-of-public-prd
+  detail: >-
+    CDR Accredited Data Recipient (ADR) flows use the OIDC/FAPI 2.0 profile
+    (dynamic client registration, PAR, mTLS/private_key_jwt). Not part of the
+    public PRD surface and not independently exercised in this review.

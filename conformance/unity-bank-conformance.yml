@@ -1,0 +1,41 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/unity-bank-cds-banking-products-openapi.yml + review.yml + DSB Consumer Data Standards
+notes: >-
+  Standards the public PRD surface conforms to, derived from the harvested shared
+  DSB standard and the live probe. This is a derive-only conformance assertion; no
+  independently published SOC 2 / ISO / PCI certification program was found for the
+  public PRD, so no Compliance pointer is emitted.
+standards:
+- id: cdr-consumer-data-standards-banking
+  conforms: true
+  evidence: >-
+    Endpoint conforms to DSB Consumer Data Standards "CDR Banking API" (OpenAPI
+    3.0.3, v1.36.0); live GET /banking/products returned HTTP 200 with a valid
+    CDS data.products payload, brand code UBL, meta.totalRecords 74.
+- id: cds-version-negotiation
+  conforms: true
+  evidence: x-v/x-min-v request headers, x-v response header, 406 on unsupported version (confirmed live x-v 4/5 supported, 3 rejected).
+- id: cds-pagination
+  conforms: true
+  evidence: page/page-size params, LinksPaginated + MetaPaginated (totalRecords/totalPages) in list responses.
+- id: cds-error-model
+  conforms: true
+  evidence: 4xx/406/422 responses use ResponseErrorListV2 (ErrorV2 code/title/detail/meta, CDS urn:au-cds error codes).
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use the CDS ErrorV2 list envelope (application/json), not application/problem+json.
+- id: rfc4122-correlation-id
+  conforms: true
+  evidence: x-fapi-interaction-id header is an RFC 4122 UUID correlation id echoed by the data holder.
+- id: fapi-2.0
+  conforms: false
+  scope: authenticated-adr-only
+  evidence: The CDR ADR data-sharing profile is OIDC/FAPI, but that surface is out of scope of the public unauthenticated PRD exercised here.
+- id: oauth2
+  conforms: false
+  scope: authenticated-adr-only
+  evidence: Public PRD is unauthenticated; no oauth2 securitySchemes in the harvested spec.
+- id: tls-https
+  conforms: true
+  evidence: Host serves over HTTPS (TLSv1.3) per security/unity-bank-domain-security.yml.

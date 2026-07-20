@@ -1,0 +1,33 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/unity-bank-cds-banking-products-openapi.yml + DSB Consumer Data Standards + review.yml
+notes: >-
+  Unity Bank publishes no bank-specific versioning or deprecation policy; its public
+  PRD conforms to the DSB Consumer Data Standards, whose per-endpoint version
+  negotiation and standards release cycle govern lifecycle. Values below are derived
+  from the shared standard (CDR Banking API v1.36.0) and the live probe.
+versioning:
+  scheme: header-negotiated
+  request_headers: [x-v, x-min-v]
+  response_header: x-v
+  endpoint_versions:
+    listBankingProducts: 5
+    getBankingProductDetail: 7
+  supported_live: [4, 5]   # GET /banking/products, confirmed HTTP 200 (review.yml)
+  docs: https://consumerdatastandardsaustralia.github.io/standards/#versioning
+deprecation:
+  policy: cds-obsolete-versions
+  mechanism: >-
+    Superseded endpoint payload versions are published as "obsolete versions" in the
+    standard (e.g. get-products v1-v4, get-product-detail v1-v6). Products themselves
+    carry effectiveFrom/effectiveTo dates so a product can be marked for obsolescence
+    or future introduction without a delete; no-longer-effective products are removed
+    from the set after a grace period rather than tombstoned.
+  sunset_header: false
+  docs: https://consumerdatastandardsaustralia.github.io/standards/#versioning
+sla:
+  url: null
+  note: No bank-specific SLA published for the public PRD; CDR performance/availability obligations apply to authenticated data-sharing flows.
+status_page: null
+standards_release: https://consumerdatastandardsaustralia.github.io/standards/#introduction
+deprecated_operations: []

@@ -1,0 +1,33 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Unity Bank CDR Product Reference Data API
+  version: 1.0.0
+extends: openapi/unity-bank-cds-banking-products-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: unity-bank
+    x-apievangelist-surface: cdr-product-reference-data-public
+    x-apievangelist-auth: none-public
+    x-apievangelist-standard: DSB Consumer Data Standards (CDR Banking API v1.36.0)
+    x-apievangelist-live-probe:
+      endpoint: GET /banking/products
+      status: 200
+      supported_versions: [4, 5]
+      brand: UBL
+      total_products: 74
+- target: $.servers
+  update:
+  - description: Unity Bank public CDR PRD (production)
+    url: https://ibank.gcmutualbank.com.au/openbanking/cds-au/v1
+    x-apievangelist-note: >-
+      Shared CDR platform host (co-tenanted with GC Mutual Bank). The harvested spec's
+      example mtls/tls servers are placeholders; this is the real production base URL.
+- target: $.paths['/banking/products'].get
+  update:
+    x-apievangelist-public: true
+    x-apievangelist-note: Public, unauthenticated. Requires x-v header (supported 4, 5).
+- target: $.paths['/banking/products/{productId}'].get
+  update:
+    x-apievangelist-public: true
+    x-apievangelist-note: Public, unauthenticated. Requires x-v header.

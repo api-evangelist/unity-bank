@@ -1,0 +1,21 @@
+generated: '2026-07-20'
+method: derived
+status: candidate
+source: openapi/unity-bank-cds-banking-products-openapi.yml
+notes: >-
+  No official hosted/remote MCP server is published by Unity Bank. This is a
+  DERIVED candidate tool list covering the public, unauthenticated CDR Product
+  Reference Data surface only (the two GET operations Unity Bank actually exposes
+  without credentials). The other 17 CDS Banking operations require CDR ADR
+  authentication and are intentionally excluded.
+server:
+  name: unity-bank
+  transport: http
+  url: null   # not published
+tools:
+- name: list_banking_products
+  description: List Unity Bank products openly offered to the market (deposit, transaction, credit-card, loan products) with eligibility, features, and pricing. Supports effective/updated-since/brand/product-category filters and page/page-size pagination.
+  source_operation: openapi/unity-bank-cds-banking-products-openapi.yml#listBankingProducts
+- name: get_banking_product_detail
+  description: Get detailed information on a single Unity Bank product by productId, including features, constraints, fees, rates, eligibility, and links to terms and conditions.
+  source_operation: openapi/unity-bank-cds-banking-products-openapi.yml#getBankingProductDetail

@@ -1,0 +1,59 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/unity-bank-cds-banking-products-openapi.yml (ResponseErrorListV2 / ErrorV2 responses on the Product Reference Data operations)
+format: cds-error-list
+notes: >-
+  Unity Bank's public PRD conforms to the DSB Consumer Data Standards error model
+  (ErrorV2: code/title/detail/meta), NOT RFC 9457 problem+json. Errors are returned
+  as application/json with a top-level `errors[]` array. `code` is a CDS error URN
+  (urn:au-cds:error:cds-all:...). The 406/UnsupportedVersion code was confirmed live
+  in review.yml. Codes below are the canonical CDS error registry entries the two
+  public Product operations MUST support per the standard.
+envelope:
+  media_type: application/json
+  root: errors
+  fields: [code, title, detail, meta]
+problems:
+- status: 400
+  code: urn:au-cds:error:cds-all:Field/Invalid
+  title: Invalid Field
+  source_operation: openapi/unity-bank-cds-banking-products-openapi.yml#listBankingProducts
+- status: 400
+  code: urn:au-cds:error:cds-all:Field/Missing
+  title: Missing Required Field
+  source_operation: openapi/unity-bank-cds-banking-products-openapi.yml#listBankingProducts
+- status: 400
+  code: urn:au-cds:error:cds-all:Header/Missing
+  title: Missing Required Header
+  source_operation: openapi/unity-bank-cds-banking-products-openapi.yml#listBankingProducts
+- status: 400
+  code: urn:au-cds:error:cds-all:Header/InvalidVersion
+  title: Invalid Version
+  source_operation: openapi/unity-bank-cds-banking-products-openapi.yml#listBankingProducts
+- status: 400
+  code: urn:au-cds:error:cds-all:Field/InvalidDateTime
+  title: Invalid Date
+  source_operation: openapi/unity-bank-cds-banking-products-openapi.yml#listBankingProducts
+- status: 400
+  code: urn:au-cds:error:cds-all:Field/InvalidPageSize
+  title: Invalid Page Size
+  source_operation: openapi/unity-bank-cds-banking-products-openapi.yml#listBankingProducts
+- status: 404
+  code: urn:au-cds:error:cds-all:Resource/NotFound
+  title: Unavailable Resource
+  remediation: The requested productId does not exist or is no longer effective.
+  source_operation: openapi/unity-bank-cds-banking-products-openapi.yml#getBankingProductDetail
+- status: 404
+  code: urn:au-cds:error:cds-all:Resource/Invalid
+  title: Invalid Resource
+  source_operation: openapi/unity-bank-cds-banking-products-openapi.yml#getBankingProductDetail
+- status: 406
+  code: urn:au-cds:error:cds-all:Header/UnsupportedVersion
+  title: Unsupported Version
+  remediation: Set x-v (and optionally x-min-v) to a supported version. Live probe confirmed x-v 4 and 5 supported; 1-3 rejected with 406.
+  evidence: review.yml liveProbe (requested x-v 3 -> HTTP 406)
+  source_operation: openapi/unity-bank-cds-banking-products-openapi.yml#listBankingProducts
+- status: 422
+  code: urn:au-cds:error:cds-all:Field/InvalidPage
+  title: Invalid Page
+  source_operation: openapi/unity-bank-cds-banking-products-openapi.yml#listBankingProducts

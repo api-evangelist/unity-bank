@@ -1,0 +1,38 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/unity-bank-cds-banking-products-openapi.yml (Product Reference Data schemas)
+notes: >-
+  Entity-relationship graph for the public PRD surface, derived from the CDS
+  BankingProduct schemas. The PRD is a single root entity (Product) with embedded
+  sub-object arrays rather than independently addressable id-referenced entities;
+  there is no cross-entity id linkage in the public surface (per the standard,
+  products and accounts deliberately do not share a linking id). Account/transaction
+  entities exist in the broader CDS spec but require CDR ADR authentication and are
+  out of scope of the public PRD.
+entities:
+- name: Product
+  id: productId
+  id_type: ASCIIString
+  source_schema: BankingProductV4 / BankingProductDetailV7
+  operations: [listBankingProducts, getBankingProductDetail]
+  key_fields: [productId, brand, brandName, name, productCategory, effectiveFrom, effectiveTo, lastUpdated, isTailored]
+  embedded:
+  - {name: bundles, cardinality: has_many, schema: BankingProductBundle}
+  - {name: features, cardinality: has_many, schema: BankingProductFeature}
+  - {name: constraints, cardinality: has_many, schema: BankingProductConstraint}
+  - {name: eligibility, cardinality: has_many, schema: BankingProductEligibility}
+  - {name: fees, cardinality: has_many, schema: BankingProductFee}
+  - {name: depositRates, cardinality: has_many, schema: BankingProductDepositRate}
+  - {name: lendingRates, cardinality: has_many, schema: BankingProductLendingRate}
+  - {name: additionalInformation, cardinality: has_one, schema: object}
+  - {name: cardArt, cardinality: has_many, schema: object}
+relationships:
+- {from: Product, to: Fee, kind: has_many, via: fees}
+- {from: Product, to: Feature, kind: has_many, via: features}
+- {from: Product, to: Constraint, kind: has_many, via: constraints}
+- {from: Product, to: Eligibility, kind: has_many, via: eligibility}
+- {from: Product, to: DepositRate, kind: has_many, via: depositRates}
+- {from: Product, to: LendingRate, kind: has_many, via: lendingRates}
+- {from: Fee, to: LendingRate, kind: referenced_by, via: additionalValue/lendingRateType}
+id_prefixes:
+  Product: opaque per-holder productId (no standard prefix); UBL brand code identifies Unity Bank Limited.
