@@ -166,6 +166,8 @@ common:
   url: security/unity-bank-domain-security.yml
 - type: Authentication
   url: authentication/unity-bank-authentication.yml
+- type: OAuthScopes
+  url: scopes/unity-bank-scopes.yml
 - type: Conventions
   url: conventions/unity-bank-conventions.yml
 - type: ErrorCatalog

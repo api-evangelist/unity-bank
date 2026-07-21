@@ -1,0 +1,63 @@
+generated: '2026-07-21'
+method: searched
+source: openapi/unity-bank-cds-banking-products-openapi.yml (x-scopes)
+docs: https://consumerdatastandardsaustralia.github.io/standards/#authorisation-scopes
+notes: >-
+  Unity Bank is a CDR data holder. The public Product Reference Data surface is
+  unauthenticated, but the broader consumer-authorized CDR Banking surface
+  (Accounts, Balances, Transactions, Payees, Direct Debits & Scheduled Payments)
+  is protected by the CDR OIDC/FAPI 2.0 authorization model. The scopes below are
+  the standard DSB Consumer Data Right banking authorisation scopes carried as
+  x-scopes on the operations in the harvested shared CDR Banking API (v1.36.0) and
+  enriched from the published Consumer Data Standards authorisation-scopes
+  reference. Authorization and token endpoints are not fixed URLs: an Accredited
+  Data Recipient discovers the data holder's OIDC configuration dynamically via the
+  CDR Register, then completes a PAR + mTLS / private_key_jwt FAPI authorization
+  flow after member consent. No public authorization-server metadata is exposed
+  (well-known probe returned 404, as expected for a data holder behind the Register).
+schemes:
+- name: CDR-OIDC-FAPI
+  type: oauth2
+  profile: FAPI 2.0 (CDR Security Profile)
+  source: openapi/unity-bank-cds-banking-products-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: discovered-via-cdr-register
+    tokenUrl: discovered-via-cdr-register
+    par: true
+    client_auth: [mtls, private_key_jwt]
+    consent: member-authorized
+scopes:
+- scope: bank:accounts.basic:read
+  description: >-
+    Read basic account information - account name, type, balance and masked
+    account number - for accounts the member has consented to share.
+  flows: [authorizationCode]
+  operations: [listBankingAccounts, getBankingBalance, listBankingBalancesBulk, listBankingBalancesSpecificAccounts]
+  sources: [openapi/unity-bank-cds-banking-products-openapi.yml]
+- scope: bank:accounts.detail:read
+  description: >-
+    Read detailed account information - full account numbers, features, fees,
+    deposit/lending rates, address and other account detail - for consented accounts.
+  flows: [authorizationCode]
+  operations: [getBankingAccountDetail]
+  sources: [openapi/unity-bank-cds-banking-products-openapi.yml]
+- scope: bank:transactions:read
+  description: >-
+    Read transactions for consented accounts, with date, amount and text filtering.
+  flows: [authorizationCode]
+  operations: [listBankingTransactions, getBankingTransactionDetail]
+  sources: [openapi/unity-bank-cds-banking-products-openapi.yml]
+- scope: bank:payees:read
+  description: >-
+    Read the member's saved payees (name, type, and payee detail) for consented data.
+  flows: [authorizationCode]
+  operations: [listBankingPayees, getBankingPayeeDetail]
+  sources: [openapi/unity-bank-cds-banking-products-openapi.yml]
+- scope: bank:regular_payments:read
+  description: >-
+    Read regular payment arrangements - direct debits and scheduled/recurring
+    payments - for consented accounts.
+  flows: [authorizationCode]
+  operations: [listDirectDebits, listDirectDebitsBulk, listDirectDebitsSpecificAccounts, listScheduledPayments, listScheduledPaymentsBulk, listScheduledPaymentsSpecificAccounts]
+  sources: [openapi/unity-bank-cds-banking-products-openapi.yml]
