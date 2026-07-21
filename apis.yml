@@ -25,7 +25,7 @@ tags:
 - Mutual Bank
 - Product Reference Data
 created: '2026-07-20'
-modified: '2026-07-20'
+modified: '2026-07-21'
 specificationVersion: '0.19'
 apis:
 - aid: unity-bank:unity-bank-cdr-product-reference-data-api
@@ -52,6 +52,113 @@ apis:
     /banking/products and GET /banking/products/{productId}. Conforms to the DSB
     Consumer Data Standards (banking brand code UBL); confirmed live with HTTP 200
     responses negotiating standards versions x-v 4 and 5 across 74 published products.
+- aid: unity-bank:unity-bank-cdr-accounts-balances-api
+  name: Unity Bank CDR Accounts & Balances API
+  tags:
+  - CDR
+  - Open Banking
+  - Accounts
+  - Balances
+  - Banking
+  - Australia
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.unitybank.com.au/about-us/corporate-information/public-apis/
+  baseURL: https://ibank.gcmutualbank.com.au/openbanking/cds-au/v1/banking/accounts
+  properties:
+  - url: https://www.unitybank.com.au/about-us/corporate-information/public-apis/
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#get-accounts
+    type: APIReference
+  - url: openapi/unity-bank-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Consumer-authorized Consumer Data Right (CDR) Accounts and Balances
+    surface Unity Bank is required to implement as a CDR data holder, covering Get
+    Accounts, Get Bulk Balances, Get Account Balance, and Get Account Detail
+    (GET /banking/accounts, /banking/accounts/balances, /banking/accounts/{accountId}/balance,
+    /banking/accounts/{accountId}). These endpoints are NOT public - they are called
+    only by CDR Accredited Data Recipients (ADRs) over MTLS after member consent and
+    OAuth2/FAPI authorization, so no unauthenticated probe returns data. The wired
+    OpenAPI is the shared DSB Consumer Data Standards CDR Banking API (v1.36.0), not
+    a bank-proprietary contract.
+- aid: unity-bank:unity-bank-cdr-transactions-api
+  name: Unity Bank CDR Transactions API
+  tags:
+  - CDR
+  - Open Banking
+  - Transactions
+  - Banking
+  - Australia
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.unitybank.com.au/about-us/corporate-information/public-apis/
+  baseURL: https://ibank.gcmutualbank.com.au/openbanking/cds-au/v1/banking/accounts/{accountId}/transactions
+  properties:
+  - url: https://www.unitybank.com.au/about-us/corporate-information/public-apis/
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#get-transactions-for-account
+    type: APIReference
+  - url: openapi/unity-bank-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Consumer-authorized Consumer Data Right (CDR) Transactions surface
+    Unity Bank implements as a CDR data holder, covering Get Transactions For Account
+    and Get Transaction Detail (GET /banking/accounts/{accountId}/transactions and
+    /banking/accounts/{accountId}/transactions/{transactionId}) with date, amount,
+    and text filtering. These endpoints are NOT public - they are called only by CDR
+    Accredited Data Recipients (ADRs) over MTLS after member consent and OAuth2/FAPI
+    authorization. The wired OpenAPI is the shared DSB Consumer Data Standards CDR
+    Banking API (v1.36.0), not a bank-proprietary contract.
+- aid: unity-bank:unity-bank-cdr-direct-debits-scheduled-payments-api
+  name: Unity Bank CDR Direct Debits & Scheduled Payments API
+  tags:
+  - CDR
+  - Open Banking
+  - Direct Debits
+  - Scheduled Payments
+  - Banking
+  - Australia
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.unitybank.com.au/about-us/corporate-information/public-apis/
+  baseURL: https://ibank.gcmutualbank.com.au/openbanking/cds-au/v1/banking/accounts/direct-debits
+  properties:
+  - url: https://www.unitybank.com.au/about-us/corporate-information/public-apis/
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#get-direct-debits-for-account
+    type: APIReference
+  - url: openapi/unity-bank-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Consumer-authorized Consumer Data Right (CDR) Direct Debits and
+    Scheduled Payments surface Unity Bank implements as a CDR data holder, covering
+    Get Direct Debits For Account, Get Bulk Direct Debits, Get Scheduled Payments For
+    Account, and Get Bulk Scheduled Payments (GET /banking/accounts/{accountId}/direct-debits,
+    /banking/accounts/direct-debits, /banking/accounts/{accountId}/payments/scheduled,
+    and /banking/payments/scheduled). These endpoints are NOT public - they are called
+    only by CDR Accredited Data Recipients (ADRs) over MTLS after member consent and
+    OAuth2/FAPI authorization. The wired OpenAPI is the shared DSB Consumer Data
+    Standards CDR Banking API (v1.36.0), not a bank-proprietary contract.
+- aid: unity-bank:unity-bank-cdr-payees-api
+  name: Unity Bank CDR Payees API
+  tags:
+  - CDR
+  - Open Banking
+  - Payees
+  - Banking
+  - Australia
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.unitybank.com.au/about-us/corporate-information/public-apis/
+  baseURL: https://ibank.gcmutualbank.com.au/openbanking/cds-au/v1/banking/payees
+  properties:
+  - url: https://www.unitybank.com.au/about-us/corporate-information/public-apis/
+    type: Documentation
+  - url: https://consumerdatastandardsaustralia.github.io/standards/#get-payees
+    type: APIReference
+  - url: openapi/unity-bank-cds-banking-products-openapi.yml
+    type: OpenAPI
+  description: Consumer-authorized Consumer Data Right (CDR) Payees surface Unity
+    Bank implements as a CDR data holder, covering Get Payees and Get Payee Detail
+    (GET /banking/payees and /banking/payees/{payeeId}) for a member's saved payees.
+    These endpoints are NOT public - they are called only by CDR Accredited Data
+    Recipients (ADRs) over MTLS after member consent and OAuth2/FAPI authorization,
+    so no unauthenticated probe returns data. The wired OpenAPI is the shared DSB
+    Consumer Data Standards CDR Banking API (v1.36.0), not a bank-proprietary contract.
 common:
 - type: AgenticAccess
   url: agentic-access/unity-bank-agentic-access.yml
