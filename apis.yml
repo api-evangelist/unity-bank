@@ -214,6 +214,9 @@ apis:
   - type: APIReference
     url: https://consumerdatastandardsaustralia.github.io/standards/#get-payees
 common:
+- type: CapabilityMap
+  url: capabilities/unity-bank-capability-edges.yml
+  name: Unity Bank Business Capability Map
 - type: AgenticAccess
   url: agentic-access/unity-bank-agentic-access.yml
 - type: DomainSecurity
