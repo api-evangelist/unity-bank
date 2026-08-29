@@ -13,6 +13,18 @@ description: Unity Bank Limited (ABN 72 087 650 637, AFSL & Australian Credit Li
   a shared CDR platform (ibank.gcmutualbank.com.au) and documented on the bank's
   public APIs page. Broader consumer data sharing follows the CDR Accredited Data
   Recipient (ADR) model and is out of scope of the public PRD surface.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: unknown
