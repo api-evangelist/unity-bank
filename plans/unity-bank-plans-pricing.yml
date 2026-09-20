@@ -1,0 +1,17 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-09-20'
+method: searched
+source: https://www.unitybank.com.au/help/rates-fees/view-all-rates-fees/
+sources:
+- https://www.unitybank.com.au/help/rates-fees/view-all-rates-fees/
+provenance:
+  tool: planning/api-economics/harvest_pricing.py
+  run: 20260920T120546
+  grounding: every price_text was found verbatim in the fetched page text
+audience: consumer
+pricing_basis: none
+published: false
+note: No numeric price is published on the pricing page; Index/landing page linking to rate and fee schedules
+  for a retail bank; no numeric prices shown in the visible text. Not an API pricing page.
+plan_count: 0
+plans: []
